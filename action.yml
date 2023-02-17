@@ -1,0 +1,18 @@
+name: 'Parcel tracker'
+description: 'Reports parcel data from uz.post to telegram bot'
+inputs:
+  data:
+    description: 'JSON array of strings parcel with parcel ID'
+    required: true
+  telegram_token:
+    description: 'Telegram bot token'
+    required: true
+  telegram_id:
+    description: 'Telegram user ID to send report (must be started bot before)'
+    required: true
+outputs:
+  done:
+    description: 'Outputs success text'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

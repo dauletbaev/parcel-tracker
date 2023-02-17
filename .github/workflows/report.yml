@@ -1,0 +1,20 @@
+name: Report
+
+on:
+  schedule:
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./
+        id: reporter
+        with:
+          data: ${{ secrets.DATA }}
+          telegram_token: ${{ secrets.TELEGRAM_TOKEN }}
+          telegram_id: ${{ secrets.TELEGRAM_ID }}
