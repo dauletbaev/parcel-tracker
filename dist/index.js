@@ -2876,24 +2876,32 @@ async function run() {
     for (let i = 0; i < results.length; i++) {
       const id = results[i].id
       const result = jsonResults[i]
+
       if (result.status === 'fulfilled') {
         const messages = [
           `🚚 <b>Parcel tracking history</b>: <code>${id}</code>`,
         ]
         const json = JSON.parse(result.value)
+        if (json.status === 'error') {
+          messages.push(`❌ ${json.message}`)
+        } else if (
+          json.status === 'success' &&
+          json.data &&
+          json.data.total > 0
+        ) {
+          for (let i = 0; i < json.data.total; i++) {
+            const element = json.data.list[i]
+            const desc = element.status_desc
+            const date = new Date(element.date).toLocaleString('en-US', options)
+            const warehouseName = element.warehouse.name
+            let message = `📅 ${date}\n🚧 ${desc}\n🏪 ${warehouseName}`
 
-        for (let i = 0; i < json.data.total; i++) {
-          const element = json.data.list[i]
-          const desc = element.status_desc
-          const date = new Date(element.date).toLocaleString('en-US', options)
-          const warehouseName = element.warehouse.name
-          let message = `📅 ${date}\n🚧 ${desc}\n🏪 ${warehouseName}`
+            if (element.batch) {
+              message += `\nℹ️ <b>${element.batch.type}</b> (<code>${element.batch.code}</code>)`
+            }
 
-          if (element.batch) {
-            message += `\nℹ️ <b>${element.batch.type}</b> (<code>${element.batch.code}</code>)`
+            messages.push(message)
           }
-
-          messages.push(message)
         }
 
         client
@@ -2911,10 +2919,7 @@ async function run() {
       }
     }
 
-    core.setOutput(
-      'done',
-      '👍 All done! Check your Telegram messages for the results.'
-    )
+    core.setOutput('done', 'true')
   } catch (error) {
     core.setFailed(error)
   }
