@@ -31,8 +31,7 @@ async function run() {
     const results = []
 
     if (Number.isNaN(lastXItems)) {
-      core.setFailed('last_x_items must be a numeric value')
-      process.exit(1)
+      throw new Error('last_x_items must be a numeric value')
     }
 
     const client = new httpClient.HttpClient(USER_AGENT)
@@ -76,7 +75,7 @@ async function run() {
           json.data &&
           json.data.total > 0
         ) {
-          const upTo = lastXItems !== -1 ? lastXItems : json.data.total
+          const upTo = lastXItems < 1 ? json.data.total : lastXItems
 
           for (let i = 0; i < upTo; i++) {
             const element = json.data.list[i]
