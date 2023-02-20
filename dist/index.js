@@ -2842,7 +2842,7 @@ const options = {
 async function run() {
   try {
     const jsonData = core.getInput('data')
-    const lastXItems = parseInt(core.getInput('last_x_items'))
+    const lastXItems = parseInt(core.getInput('last_x_items'), 10)
     const telegramToken = core.getInput('telegram_token')
     const chatId = core.getInput('telegram_id')
     const data = JSON.parse(jsonData)
@@ -2899,9 +2899,12 @@ async function run() {
           for (let i = 0; i < upTo; i++) {
             const element = json.data.list[i]
             const desc = element.status_desc
-            const date = new Date(element.date).toLocaleString('en-US', options)
+            const dt = new Date(element.date).toLocaleDateString(
+              'uz-UZ',
+              options
+            )
             const warehouseName = element.warehouse.name
-            let message = `📅 ${date}\n🚧 ${desc}\n🏪 ${warehouseName}`
+            let message = `📅 ${dt}\n🚧 ${desc}\n🏪 ${warehouseName}`
 
             if (element.batch) {
               message += `\nℹ️ <b>${element.batch.type}</b> (<code>${element.batch.code}</code>)`
@@ -2926,7 +2929,7 @@ async function run() {
       }
     }
 
-    core.setOutput('done', 'true')
+    core.setOutput('last_x_items', `${lastXItems}`)
   } catch (error) {
     core.setFailed(error)
   }
