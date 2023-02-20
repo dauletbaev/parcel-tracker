@@ -16,3 +16,4 @@ jobs:
           data: ${{ secrets.DATA }}
           telegram_token: ${{ secrets.TELEGRAM_TOKEN }}
           telegram_id: ${{ secrets.TELEGRAM_ID }}
+          last_x_items: '2'
