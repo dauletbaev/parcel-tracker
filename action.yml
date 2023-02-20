@@ -10,6 +10,10 @@ inputs:
   telegram_id:
     description: 'Telegram user ID to send report (must be started bot before)'
     required: true
+  last_x_items:
+    description: 'Only last x amount of history. -1 for all'
+    required: false
+    default: '1'
 outputs:
   done:
     description: 'Outputs success text'

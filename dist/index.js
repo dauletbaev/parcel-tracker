@@ -2842,11 +2842,17 @@ const options = {
 async function run() {
   try {
     const jsonData = core.getInput('data')
+    const lastXItems = parseInt(core.getInput('last_x_items'))
     const telegramToken = core.getInput('telegram_token')
     const chatId = core.getInput('telegram_id')
     const data = JSON.parse(jsonData)
     const promises = []
     const results = []
+
+    if (Number.isNaN(lastXItems)) {
+      core.setFailed('last_x_items must be a numeric value')
+      process.exit(1)
+    }
 
     const client = new httpClient.HttpClient(USER_AGENT)
 
@@ -2889,7 +2895,9 @@ async function run() {
           json.data &&
           json.data.total > 0
         ) {
-          for (let i = 0; i < json.data.total; i++) {
+          const upTo = lastXItems !== -1 ? lastXItems : json.data.total
+
+          for (let i = 0; i < upTo; i++) {
             const element = json.data.list[i]
             const desc = element.status_desc
             const date = new Date(element.date).toLocaleString('en-US', options)
