@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: dauletbaev/parcel-tracker@v1.0
+      - uses: dauletbaev/parcel-tracker@v1.1
         id: reporter
         with:
           data: ${{ secrets.DATA }}
