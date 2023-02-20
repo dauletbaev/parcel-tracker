@@ -17,3 +17,4 @@ jobs:
           telegram_token: ${{ secrets.TELEGRAM_TOKEN }}
           telegram_id: ${{ secrets.TELEGRAM_ID }}
           last_x_items: '2'
+      - run: echo ${{ steps.reporter.outputs.done }}
