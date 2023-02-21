@@ -2910,6 +2910,10 @@ async function run() {
               message += `\nℹ️ <b>${element.batch.type}</b> (<code>${element.batch.code}</code>)`
             }
 
+            if (element.driver) {
+              message += `\n🚗 <b>${element.driver.name}</b>`
+            }
+
             messages.push(message)
           }
         }
