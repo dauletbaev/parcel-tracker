@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: dauletbaev/parcel-tracker@v1.2
         id: reporter
+        if: false
         with:
           data: ${{ secrets.DATA }}
           telegram_token: ${{ secrets.TELEGRAM_TOKEN }}
